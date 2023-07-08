@@ -1,0 +1,167 @@
+﻿@model Usuario
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+            <a asp-controller="Acceder" asp-action="Login" class="logo d-flex align-items-center nav-link">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto active" asp-controller="Home" asp-action="QuienesSomos">QUIÉNES SOMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto" asp-controller="Home" asp-action="QueHacemos">QUÉ HACEMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto" asp-controller="Home" asp-action="Contactanos">CONTACTANOS</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- ======= Hero Section ======= -->
+    <div style="background: #E7E7E3">
+        <section id="hero" class="hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7 d-flex flex-column justify-content-center">
+                        <h1 id="inicio" style="color: #C92C19">MOBIEASE</h1>
+                        <br>
+                        <p class="fs-3 mb-3 animated bounceIn" style="color: #191514">
+                            Si eres una persona que sufre de alguna discapacidad
+                            que no te permite realizar una actividad física por
+                            ti misma, esta página web te permitirá encontrar a
+                            personas voluntarias que estan dispuestas ayudarte
+                            en un tiempo establecido.
+                        </p>
+                        <img src="~/img/07_discapacidad.jpg" width="300" height="300" class="img-fluid">
+                    </div>
+                    <div class="col-lg-5">
+                        <br />
+                        <h1 id="inicioSesion" class="text-center">INICIAR SESION</h1>
+                        <form asp-controller="Acceder" asp-action="Login" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Correo</label>
+                                <input name="correo" asp-for="correo" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Ingrese su email" style="background: #E7E7E3">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Contraseña</label>
+                                <input name="clave" asp-for="clave" type="password" class="form-control" placeholder="Ingrese su contraseña" style="background: #E7E7E3">
+                            </div>
+                            @if (ViewData["Mensaje"] != null)
+                            {
+                                <div id="alerta" class="alert alert-danger" role="alert">El correo y/o la contraseña son incorrectas</div>
+                            }
+                            <div class="text-center text-lg-start">
+                                <button name="login" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Iniciar Sesion</span>
+                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <br />
+                        <p>¿Aún no estar registrado?</p>
+                        <div class="mb-3">
+                            <a id="registroDiscapacitado" asp-controller="Acceder" asp-action="RegistrarDiscapacitado" class="nav-link" style="color: #D0240F">
+                                Regístrate si eres un usuario discapacitado
+                            </a>
+                        </div>
+                        <div class="mb-3">
+                            <a id="registroVoluntario" asp-controller="Acceder" asp-action="RegistrarVoluntario" class="nav-link" style="color: #D0240F">
+                                Regístrate si eres un usuario voluntario
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Hero -->
+    </div>
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>SÍGUENOS:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-2">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        <i class="fas fa-gem me-3"></i>MOBIEASE
+                    </h6>
+                    <p>
+                        Telefono: 922513085
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        NOSOTROS
+                    </h6>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Quiénes Somos</a>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Que Hacemos</a>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">Contacto</h6>
+                    <p><a asp-controller="Home" asp-action="Contactanos" class="nav-link text-reset">Contactanos</a></p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright:
+        </div>
+    </footer>
+    <!-- Footer -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

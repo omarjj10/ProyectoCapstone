@@ -1,0 +1,212 @@
+﻿@model ProyectoCapstone.Models.Cita
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Confirmar Cita</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a asp-controller="Home" asp-action="Inicio" class="logo d-flex align-items-center nav-link">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto active" asp-controller="Home" asp-action="QuienesSomos">QUIÉNES SOMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="QueHacemos">QUÉ HACEMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="Contactanos">CONTACTANOS</a>
+                    </li>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Usuario" asp-action="Index">LISTA DE USUARIOS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Cita" asp-action="ListaCita">LISTA DE CITAS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="ListaContactanos">LISTA DE CONTACTANOS</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Discapacitado"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-area="" asp-controller="Cita" asp-action="Index">SOLICITAR CITA</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <ul class="navbar-nav float-end">
+                <li class="nav-item dropdown justify-content-start">
+                    <a class="navegacion2 nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="~/img/user.png" width="30" height="30"> @ViewBag.nombre
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Editar" asp-route-Id="@ViewBag.id"><i class="fa-solid fa-user-pen"></i> Editar Perfil</a></li>
+                        <li><a class="dropdown-item" asp-controller="Acceder" asp-action="CerrarSesion"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div style="background: #E7E7E3">
+        <section id="hero" class="hero d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 offset-sm-3">
+                        <div class="text-center">
+                            <h2>CONFIRMAR CITA</h2>
+                            <img src="~/img/cita.png" width="100" height="100" class="img-fluid">
+                        </div>
+                        <br />
+                        <form asp-controller="Cita" asp-action="ConfirmarCita" method="post" id="formulario" onsubmit="confirmar(event)">
+                            <div class="mb-3">
+                                <h5>Nombre del Discapacitado: @ViewBag.nomDis</h5>
+                                <input asp-for="nombreDiscapacitado" value="@ViewBag.nomDis" hidden />
+                                <span asp-validation-for="nombreDiscapacitado" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <h5>Nombre del Voluntario: @ViewBag.nomVol</h5>
+                                <input asp-for="nombreVoluntario" value="@ViewBag.nomVol" hidden />
+                                <span asp-validation-for="nombreVoluntario" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <h5>Lugar de Encuentro: @ViewBag.lugar</h5>
+                                <input asp-for="lugarEncuentro" value="@ViewBag.lugar" hidden />
+                                <span asp-validation-for="lugarEncuentro" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <h5>Fecha de Encuentro: @ViewBag.fecha</h5>
+                                <input type="text" asp-for="fecha" value="@ViewBag.fecha" hidden />
+                                <span asp-validation-for="fecha" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <h5>Hora de Inicio: @ViewBag.horaInicio</h5>
+                                <input type="text" asp-for="horaInicio" value="@ViewBag.horaInicio" hidden />
+                                <span asp-validation-for="horaInicio" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <h5>Tiempo de duración aproximado de la cita: @ViewBag.duracion</h5>
+                                <input asp-for="tiempoCita" value="@ViewBag.duracion" hidden />
+                                <span asp-validation-for="tiempoCita" class="text-danger"></span>
+                            </div>
+                            <br />
+                            <div class="text-center">
+                                <button name="confirmarCita" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Confirmar Cita</span>
+                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <br />
+                        <div class="text-center">
+                            <form asp-controller="Cita" asp-action="CancelarCita" method="post" id="formulario2" onsubmit="cancelar(event)">
+                                <input asp-for="nombreDiscapacitado" value="@ViewBag.nomDis" hidden />
+                                <input asp-for="nombreVoluntario" value="@ViewBag.nomVol" hidden />
+                                <input asp-for="lugarEncuentro" value="@ViewBag.lugar" hidden />
+                                <input type="text" asp-for="fecha" value="@ViewBag.fecha" hidden />
+                                <input type="text" asp-for="horaInicio" value="@ViewBag.horaInicio" hidden />
+                                <input asp-for="tiempoCita" value="@ViewBag.duracion" hidden />
+                                <button name="cancelarCita" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Cancelar Cita</span>
+                                    <i class="fa-solid fa-left-long"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>SÍGUENOS:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-2">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        <i class="fas fa-gem me-3"></i>MOBIEASE
+                    </h6>
+                    <p>
+                        Telefono: 922513085
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        NOSOTROS
+                    </h6>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Quiénes Somos</a>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Que Hacemos</a>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">Contacto</h6>
+                    <p><a asp-controller="Home" asp-action="Contactanos" class="nav-link text-reset">Contactanos</a></p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright:
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/confirmarCita.js"></script>
+    <script src="~//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

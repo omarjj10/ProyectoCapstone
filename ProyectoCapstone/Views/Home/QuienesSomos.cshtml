@@ -1,0 +1,206 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Quienes Somos</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            @if (User.IsInRole("Discapacitado") || User.IsInRole("Voluntario") || User.IsInRole("Administrador"))
+            {
+                <a asp-controller="Home" asp-action="Inicio" class="logo d-flex align-items-center nav-link">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Inicio</span>
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Acceder" asp-action="Login" class="logo d-flex align-items-center nav-link">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Inicio</span>
+                </a>
+            }
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto active" asp-controller="Home" asp-action="QuienesSomos">QUIÉNES SOMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="QueHacemos">QUÉ HACEMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="Contactanos">CONTACTANOS</a>
+                    </li>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Usuario" asp-action="Index">LISTA DE USUARIOS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Cita" asp-action="ListaCita">LISTA DE CITAS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="ListaContactanos">LISTA DE CONTACTANOS</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Discapacitado"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-area="" asp-controller="Cita" asp-action="Index">SOLICITAR CITA</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            @if (User.IsInRole("Discapacitado") || User.IsInRole("Voluntario") || User.IsInRole("Administrador"))
+            {
+                <ul class="navbar-nav float-end">
+                    <li class="nav-item dropdown justify-content-start">
+                        <a class="navegacion2 nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="~/img/user.png" width="30" height="30"> @ViewBag.nombre
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                            <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Editar" asp-route-Id="@ViewBag.id"><i class="fa-solid fa-user-pen"></i> Editar Perfil</a></li>
+                            <li><a class="dropdown-item" asp-controller="Acceder" asp-action="CerrarSesion"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            }
+        </div>
+    </nav>
+    <div style="background: #E7E7E3">
+        <section id="hero" class="hero">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="row">
+                            <div style="z-index: 10">
+                                <h1 class="my-5 display-8 fw-bold ls-tight" style="color: #C92C19">
+                                    MOBIEASE <br />
+                                </h1>
+                                <img src="~/img/programador.png" width="400" height="400" class="img-fluid" alt="Sample image" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <br />
+                        <br />
+                        <div class="row">
+                            <p class="h5">
+                                <strong>
+                                    Hola, mi nombre es Omar Jackser Josué Calvanapón Castillo,
+                                </strong>
+                                estudiante de la carrera de ingeniería de sistemas computacionales Universidad Privada del Norte,
+                                identificado con el numero de DNI 73522529 tengo 22 años de edad.
+                                <br />
+                                <br />
+                                <strong>
+                                    Hola, mi nombre es Daniel Enrique Horna Zegarra,
+                                </strong>
+                                estudiante de la carrera de ingeniería de sistemas computacionales Universidad Privada del Norte,
+                                identificado con el numero de DNI 73522529 tengo 22 años de edad.
+                                <br />
+                                <br />
+                                <strong>
+                                    Hola, mi nombre es Richard Ronaldo Rudas Alvarez,
+                                </strong>
+                                estudiante de la carrera de ingeniería de sistemas computacionales Universidad Privada del Norte,
+                                identificado con el numero de DNI 72604810 tengo 22 años de edad.
+                                <br />
+                                <br />
+                                <strong>
+                                    Hola, mi nombre es Jhon Ever Carrero Silva,
+                                </strong>
+                                estudiante de la carrera de ingeniería de sistemas computacionales Universidad Privada del Norte,
+                                identificado con el numero de DNI 71778999 tengo 22 años de edad.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>SÍGUENOS:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-2">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        <i class="fas fa-gem me-3"></i>MOBIEASE
+                    </h6>
+                    <p>
+                        Telefono: 922513085
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        NOSOTROS
+                    </h6>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Quiénes Somos</a>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Que Hacemos</a>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">Contacto</h6>
+                    <p><a asp-controller="Home" asp-action="Contactanos" class="nav-link text-reset">Contactanos</a></p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright:
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

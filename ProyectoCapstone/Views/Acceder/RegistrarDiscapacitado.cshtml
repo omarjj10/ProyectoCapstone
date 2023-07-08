@@ -1,0 +1,220 @@
+﻿@model BlocUsuario
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bienvenido</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+            <a asp-controller="Acceder" asp-action="Login" class="logo d-flex align-items-center nav-link">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto active" asp-controller="Home" asp-action="QuienesSomos">QUIÉNES SOMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto" asp-controller="Home" asp-action="QueHacemos">QUÉ HACEMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto" asp-controller="Home" asp-action="Contactanos">CONTACTANOS</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div style="background: #E7E7E3">
+        <section id="hero" class="hero">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 d-flex flex-column justify-content-center">
+                        <h1 style="color: #C92C19">
+                            MOBIEASE
+                        </h1>
+                        <p class="fs-3 mb-4" style="color: #191514">
+                            Si eres una persona que sufre de alguna discapacidad
+                            que no te permite realizar una actividad física por
+                            ti misma, esta página web te permitirá encontrar a
+                            personas voluntarias que estan dispuestas ayudarte
+                            en un tiempo establecido.
+                        </p>
+                        <img src="~/img/registro.png" width="300" height="300" class="img-fluid">
+                    </div>
+                    <div class="col-lg-6 d-flex flex-column justify-content-center">
+                        <br />
+                        <h2 class="text-center">Bienvenido</h2>
+                        <h2 id="creaTuCuenta">Crea tu cuenta en MOBIEASE en instante</h2>
+                        <br />
+                        <form asp-controller="Acceder" asp-action="RegistrarDiscapacitado" method="post" enctype="multipart/form-data">
+                            @if (ViewBag.mensajeCorreo != null)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    @ViewBag.mensajeCorreo
+                                </div>
+                            }
+                            <div class="mb-2">
+                                <label class="form-label">Apellido Completo</label>
+                                <input type="text" asp-for="apellido" class="form-control" placeholder="Ingrese su apellido" autocomplete="off" id="apellido" style="background: #E7E7E3" />
+                                <span asp-validation-for="apellido" class="text-danger"></span>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" asp-for="nombre" class="form-control" placeholder="Ingrese su nombre" autocomplete="off" id="nombre" style="background: #E7E7E3" />
+                                <span asp-validation-for="nombre" class="text-danger"></span>
+                            </div>
+                            @if (ViewData["Nombre"] != null)
+                            {
+                                <div class="alert alert-danger" role="alert" id="alertaNombreFalso">@ViewData["Nombre"]</div>
+                            }
+                            <div class="mb-2">
+                                <label class="form-label">Correo</label>
+                                <input type="email" asp-for="correo" class="form-control" placeholder="Ingrese su correo" autocomplete="off" id="correo" style="background: #E7E7E3" />
+                                <span asp-validation-for="correo" class="text-danger"></span>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Contraseña</label>
+                                <input type="password" asp-for="clave" class="form-control" placeholder="Ingrese su contraseña" autocomplete="off" id="clave" style="background: #E7E7E3" />
+                                <span asp-validation-for="clave" class="text-danger"></span>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">Discapacidad</label>
+                                <select asp-for="discapacidad" class="form-select" id="discapacidad" style="background: #E7E7E3">
+                                    <option disabled selected>--Seleccione el tipo de discapacidad que usted tiene--</option>
+                                    <option value="Discapacidad fisica motora">Discapacidad física motora</option>
+                                    <option value="Discapacidad sensorial (visual y auditiva)">Discapacidad sensorial (visual y auditiva)</option>
+                                    <option value="Discapacidad psiquica">Discapacidad psíquica</option>
+                                </select>
+                                <span asp-validation-for="discapacidad" class="text-danger"></span>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label">DNI</label>
+                                <input type="text" asp-for="numeroDni" class="form-control" placeholder="Ingrese su DNI" autocomplete="off" id="dni" style="background: #E7E7E3" />
+                                <span asp-validation-for="numeroDni" class="text-danger"></span>
+                            </div>
+                            @if (ViewData["DniReniec"] != null)
+                            {
+                                <div class="alert alert-danger" role="alert" id="alertaDniReniec">@ViewData["DniReniec"]</div>
+                            }
+                            <div class="mb-2">
+                                <label class="form-label">Telefono</label>
+                                <input type="number" asp-for="telefono" class="form-control" placeholder="Ingrese su numero de telefono" autocomplete="off" id="telefono" style="background: #E7E7E3" />
+                                <span asp-validation-for="telefono" class="text-danger"></span>
+                            </div>
+                            @if (ViewData["Telefono"] != null)
+                            {
+                                <div class="alert alert-danger" role="alert" id="alertaTelefono">@ViewData["Telefono"]</div>
+                            }
+                            <div class="mb-2">
+                                <label class="form-label">Dirección</label>
+                                <input type="text" asp-for="direccion" class="form-control" placeholder="Ingrese su dirección" autocomplete="off" id="direccion" style="background: #E7E7E3" />
+                                <span asp-validation-for="direccion" class="text-danger"></span>
+                            </div>
+                            @if (ViewData["Existe"] != null)
+                            {
+                                <div id="alertaUsuarioExiste" class="alert alert-danger" role="alert">@ViewData["Existe"]</div>
+                            }
+                            @if (ViewData["Mensaje"] != null)
+                            {
+                                <div class="alert alert-danger" role="alert" id="modeloIncorrecto">
+                                    @ViewData["Mensaje"]
+                                </div>
+                            }
+                            <!-- Submit button -->
+                            <div class="text-center text-lg-start">
+                                <button name="crearCuenta" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Crear Cuenta</span>
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>SÍGUENOS:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-2">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        <i class="fas fa-gem me-3"></i>MOBIEASE
+                    </h6>
+                    <p>
+                        Telefono: 922513085
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        NOSOTROS
+                    </h6>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Quiénes Somos</a>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Que Hacemos</a>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">Contacto</h6>
+                    <p><a asp-controller="Home" asp-action="Contactanos" class="nav-link text-reset">Contactanos</a></p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright:
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

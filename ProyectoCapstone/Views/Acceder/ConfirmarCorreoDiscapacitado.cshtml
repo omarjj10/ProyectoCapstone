@@ -1,0 +1,152 @@
+﻿@model Usuario
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bienvenido</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+            <a asp-controller="Acceder" asp-action="Login" class="logo d-flex align-items-center nav-link">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto active" asp-controller="Home" asp-action="QuienesSomos">QUIÉNES SOMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto" asp-controller="Home" asp-action="QueHacemos">QUÉ HACEMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion nav-link scrollto" asp-controller="Home" asp-action="Contactanos">CONTACTANOS</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div style="background: #E7E7E3">
+        <section id="hero" class="hero">
+            <div class="container">
+                <div class="col-sm-6 offset-sm-3 text-center">
+                    <h2 id="creaTuCuenta" class="text-center">CONFIRMACION DE CORREO</h2>
+                    <br />
+                    <img src="~/img/checkCorreo.png" width="100" height="100" class="img-fluid">
+                    <form asp-controller="Acceder" asp-action="ConfirmarCorreoDiscapacitado" method="post" enctype="multipart/form-data">
+                        <input asp-for="nombre" value="@ViewBag.nombre" hidden />
+                        <input asp-for="apellido" value="@ViewBag.apellido" hidden />
+                        <input asp-for="correo" value="@ViewBag.correo" hidden />
+                        <input asp-for="clave" value="@ViewBag.clave" hidden />
+                        <input asp-for="discapacidad" value="@ViewBag.discapacidad" hidden />
+                        <input asp-for="numeroDni" value="@ViewBag.dni" hidden />
+                        <input asp-for="direccion" value="@ViewBag.direccion" hidden />
+                        <input asp-for="telefono" value="@ViewBag.telefono" hidden />
+                        <input value="@ViewBag.codigoVer" name="codigo" hidden />
+                        <div class="mb-2">
+                            <h2 id="correoVerificar" class="form-label">
+                                Se ah enviado un código de verificación a su correo
+                                electronico, porfavor ingrese a su correo electronico e ingrese ese código enviado para asegurarse
+                                que su correo electronico sea verdadero.
+                            </h2>
+                            <br />
+                            <input type="number" class="form-control" name="codigoVerificacion" placeholder="Ingrese el codigo de verificación" style="background: #E7E7E3" />
+                        </div>
+                        @if (ViewBag.error2 != null)
+                        {
+                            <div class="alert alert-danger" role="alert" id="alertaCodigoVacio">@ViewBag.error2</div>
+                        }
+                        <div class="text-center">
+                            <button name="verificarCodigo" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                <span>Verificar Codigo</span>
+                                <i class="fa-solid fa-floppy-disk"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>SÍGUENOS:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-2">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        <i class="fas fa-gem me-3"></i>MOBIEASE
+                    </h6>
+                    <p>
+                        Telefono: 922513085
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        NOSOTROS
+                    </h6>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Quiénes Somos</a>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Que Hacemos</a>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">Contacto</h6>
+                    <p><a asp-controller="Home" asp-action="Contactanos" class="nav-link text-reset">Contactanos</a></p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright:
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

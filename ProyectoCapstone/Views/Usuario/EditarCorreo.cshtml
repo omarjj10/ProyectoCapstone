@@ -1,0 +1,196 @@
+﻿@model ProyectoCapstone.Models.Usuario
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Editar Correo</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a asp-controller="Home" asp-action="Inicio" class="logo d-flex align-items-center nav-link">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto active" asp-controller="Home" asp-action="QuienesSomos">QUIÉNES SOMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="QueHacemos">QUÉ HACEMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="Contactanos">CONTACTANOS</a>
+                    </li>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Usuario" asp-action="Index">LISTA DE USUARIOS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Cita" asp-action="ListaCita">LISTA DE CITAS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="ListaContactanos">LISTA DE CONTACTANOS</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Discapacitado"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-area="" asp-controller="Cita" asp-action="Index">SOLICITAR CITA</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <ul class="navbar-nav float-end">
+                <li class="nav-item dropdown justify-content-start">
+                    <a class="navegacion2 nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="~/img/user.png" width="30" height="30"> @ViewBag.nombre
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Editar" asp-route-Id="@ViewBag.id"><i class="fa-solid fa-user-pen"></i> Editar Perfil</a></li>
+                        <li><a class="dropdown-item" asp-controller="Acceder" asp-action="CerrarSesion"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div style="background: #E7E7E3">
+        <section id="hero" class="hero d-flex align-items-center">
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col-sm-5 offset-sm-3">
+                        <h2 class="text-center">Editar Mi Correo</h2>
+                        <br />
+                        <form asp-controller="Usuario" asp-action="EditarCorreo" method="post">
+                            <input asp-for="UsuarioID" hidden />
+                            <input asp-for="RolID" hidden />
+                            <input asp-for="numeroDni" hidden />
+                            <input asp-for="discapacidad" hidden />
+                            <input asp-for="apellido" hidden />
+                            <input asp-for="nombre" hidden />
+                            <input asp-for="telefono" hidden />
+                            <input asp-for="direccion" hidden />
+                            <input asp-for="estado" hidden />
+                            <input asp-for="diaDisponible" hidden />
+                            <input asp-for="inicio" hidden />
+                            <input asp-for="fin" hidden />
+                            <input asp-for="recomendacion" hidden />
+                            <input asp-for="clave" hidden />
+                            <label class="form-label">Correo Actual: @ViewBag.correo</label>
+                            <br />
+                            <div class="form-outline mb-2">
+                                <label class="form-label">Ingrese su Correo Nuevo:</label>
+                                <input type="email" name="correoUsuario" class="form-control" style="background: #E7E7E3" />
+                            </div>
+                            <br />
+                            <div class="form-outline mb-2">
+                                <label class="form-label">Confirmar Correo</label>
+                                <input type="email" name="correoUsuario2" class="form-control" style="background: #E7E7E3" />
+                            </div>
+                            <br />
+                            @if (ViewBag.correoNoIgaul != null)
+                            {
+                                <div class="alert alert-danger" role="alert" id="alertaCorreoNoIguales">@ViewBag.correoNoIgaul</div>
+                            }
+                            @if (ViewBag.error != null)
+                            {
+                                <div class="alert alert-danger" role="alert" id="alertaModeloIncorrecto">@ViewBag.error</div>
+                            }
+                            <!-- Submit button -->
+                            <div class="text-center text-lg-start">
+                                <button name="actualizarMiCorreo" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Actualizar mi Correo</span>
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>SÍGUENOS:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-2">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        <i class="fas fa-gem me-3"></i>MOBIEASE
+                    </h6>
+                    <p>
+                        Telefono: 922513085
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        NOSOTROS
+                    </h6>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Quiénes Somos</a>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Que Hacemos</a>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">Contacto</h6>
+                    <p><a asp-controller="Home" asp-action="Contactanos" class="nav-link text-reset">Contactanos</a></p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright:
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

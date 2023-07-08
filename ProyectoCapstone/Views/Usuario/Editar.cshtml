@@ -1,0 +1,279 @@
+﻿@model ProyectoCapstone.Models.Usuario
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Editar Datos</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a asp-controller="Home" asp-action="Inicio" class="logo d-flex align-items-center nav-link">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto active" asp-controller="Home" asp-action="QuienesSomos">QUIÉNES SOMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="QueHacemos">QUÉ HACEMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="Contactanos">CONTACTANOS</a>
+                    </li>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Usuario" asp-action="Index">LISTA DE USUARIOS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Cita" asp-action="ListaCita">LISTA DE CITAS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="ListaContactanos">LISTA DE CONTACTANOS</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Discapacitado"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-area="" asp-controller="Cita" asp-action="Index">SOLICITAR CITA</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <ul class="navbar-nav float-end">
+                <li class="nav-item dropdown justify-content-start">
+                    <a class="navegacion2 nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="~/img/user.png" width="30" height="30"> @ViewBag.nombre
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Editar" asp-route-Id="@ViewBag.id"><i class="fa-solid fa-user-pen"></i> Editar Perfil</a></li>
+                        <li><a class="dropdown-item" asp-controller="Acceder" asp-action="CerrarSesion"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div style="background: #E7E7E3">
+        <section id="hero" class="hero d-flex align-items-center">
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col-sm-6 offset-sm-3">
+                        <h2 id="editarMisDatos" class="text-center">EDITAR MIS DATOS</h2>
+                        <form asp-controller="Usuario" asp-action="Editar" method="post">
+                            <input asp-for="UsuarioID" hidden />
+                            <input asp-for="RolID" hidden />
+                            <input asp-for="correo" hidden />
+                            <input asp-for="clave" hidden />
+                            <input asp-for="numeroDni" hidden />
+                            <input asp-for="discapacidad" hidden />
+                            <input asp-for="recomendacion" hidden />
+                            <div class="form-outline mb-2">
+                                <label class="form-label">Apellido Completo</label>
+                                <input type="text" asp-for="apellido" class="form-control" style="background: #E7E7E3" />
+                                <span asp-validation-for="apellido" class="text-danger"></span>
+                            </div>
+                            <div class="form-outline mb-2">
+                                <label class="form-label">Nombre Completo</label>
+                                <input type="text" asp-for="nombre" class="form-control" style="background: #E7E7E3" />
+                                <span asp-validation-for="nombre" class="text-danger"></span>
+                            </div>
+                            <div class="form-outline mb-2">
+                                <label class="form-label">Telefono</label>
+                                <input type="number" asp-for="telefono" class="form-control" style="background: #E7E7E3" />
+                                <span asp-validation-for="telefono" class="text-danger"></span>
+                            </div>
+                            <div class="form-outline mb-2">
+                                <label class="form-label">Dirección</label>
+                                <input name="direccion" type="text" asp-for="direccion" class="form-control" style="background: #E7E7E3" />
+                                <span asp-validation-for="direccion" class="text-danger"></span>
+                            </div>
+                            @if (Model.RolID == 2)
+                            {
+                                <div class="form-outline mb-2">
+                                    <label class="form-label">Editar Estado</label>
+                                    <select asp-for="estado" class="form-select" style="background: #E7E7E3">
+                                        <option disabled selected>@Model.estado</option>
+                                        <option value="disponible">disponible</option>
+                                        <option value="no disponible">no disponible</option>
+                                    </select>
+                                    <span asp-validation-for="estado" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (Model.RolID == 2)
+                            {
+                                <div class="form-outline mb-2">
+                                    <label class="form-label">Dia Dsiponible (este dia lo podra modificar si lo desea)</label>
+                                    <select id="diaDisponible" asp-for="diaDisponible" class="form-select" style="background: #E7E7E3">
+                                        <option disabled selected>@Model.diaDisponible</option>
+                                        <option value="Lunes">Lunes</option>
+                                        <option value="Martes">Martes</option>
+                                        <option value="Miercoles">Miercoles</option>
+                                        <option value="Jueves">Jueves</option>
+                                        <option value="Viernes">Viernes</option>
+                                        <option value="Sabado">Sabado</option>
+                                        <option value="Domingo">Domingo</option>
+                                    </select>
+                                    <span asp-validation-for="diaDisponible" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (Model.RolID == 2)
+                            {
+                                <div class="form-outline mb-2">
+                                    <label class="form-label">Hora de Inicio Disponible (esta hora lo podra modificar si lo desea)</label>
+                                    <select id="inicio" asp-for="inicio" class="form-select" style="background: #E7E7E3">
+                                        <option disabled selected>@Model.inicio</option>
+                                        <option value="8:00">8:00 am</option>
+                                        <option value="9:00">9:00 am</option>
+                                        <option value="10:00">10:00 am</option>
+                                        <option value="11:00">11:00 am</option>
+                                        <option value="12:00">12:00 pm</option>
+                                        <option value="13:00">1:00 pm</option>
+                                        <option value="14:00">2:00 pm</option>
+                                        <option value="15:00">3:00 pm</option>
+                                        <option value="16:00">4:00 pm</option>
+                                        <option value="17:00">5:00 pm</option>
+                                    </select>
+                                    <span asp-validation-for="inicio" class="text-danger"></span>
+                                    @if (ViewBag.error != null)
+                                    {
+                                        <div class="alert alert-danger" role="alert" id="alertaHora">
+                                            @ViewBag.error
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            @if (Model.RolID == 2)
+                            {
+                                <div class="form-outline mb-4">
+                                    <label class="form-label">Hora Final Disponible (esta hora lo podra modificar si lo desea)</label>
+                                    <select id="fin" asp-for="fin" class="form-select" style="background: #E7E7E3">
+                                        <option disabled selected>@Model.fin</option>
+                                        <option value="8:00">8:00 am</option>
+                                        <option value="9:00">9:00 am</option>
+                                        <option value="10:00">10:00 am</option>
+                                        <option value="11:00">11:00 am</option>
+                                        <option value="12:00">12:00 pm</option>
+                                        <option value="13:00">1:00 pm</option>
+                                        <option value="14:00">2:00 pm</option>
+                                        <option value="15:00">3:00 pm</option>
+                                        <option value="16:00">4:00 pm</option>
+                                        <option value="17:00">5:00 pm</option>
+                                    </select>
+                                    <span asp-validation-for="fin" class="text-danger"></span>
+                                </div>
+                            }
+                            <!-- Submit button -->
+                            <div class="text-center text-lg-start">
+                                <button name="actualizarMisDatos" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Actualizar mis Datos</span>
+                                    <i class="fa-solid fa-floppy-disk"></i>
+                                </button>
+                            </div>
+                            <br />
+                            <p>¿Deseas Actualizar tus datos de Sesión?</p>
+                            <br />
+                            <div class="mb-2">
+                                <a asp-controller="Usuario" asp-action="EditarCorreo" asp-route-Id="@Model.UsuarioID" class="btn btn-secondary">
+                                    <i class="fa-solid fa-key"></i>
+                                    Cambiar Correo
+                                </a>
+                            </div>
+                            <br />
+                            <div class="mb-2">
+                                <a asp-controller="Usuario" asp-action="EditarClave" asp-route-Id="@Model.UsuarioID" class="btn btn-secondary">
+                                    <i class="fa-solid fa-key"></i>
+                                    Cambiar Contraseña
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>SÍGUENOS:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-2">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        <i class="fas fa-gem me-3"></i>MOBIEASE
+                    </h6>
+                    <p>
+                        Telefono: 922513085
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        NOSOTROS
+                    </h6>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Quiénes Somos</a>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Que Hacemos</a>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">Contacto</h6>
+                    <p><a asp-controller="Home" asp-action="Contactanos" class="nav-link text-reset">Contactanos</a></p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright:
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

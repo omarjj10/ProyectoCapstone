@@ -1,0 +1,454 @@
+﻿@model BlocCita
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Solicitar Cita</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a asp-controller="Home" asp-action="Inicio" class="logo d-flex align-items-center nav-link">
+                <i class="fa-solid fa-house"></i>
+                <span>Inicio</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto active" asp-controller="Home" asp-action="QuienesSomos">QUIÉNES SOMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="QueHacemos">QUÉ HACEMOS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="Contactanos">CONTACTANOS</a>
+                    </li>
+                    @if (User.IsInRole("Administrador"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Usuario" asp-action="Index">LISTA DE USUARIOS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Cita" asp-action="ListaCita">LISTA DE CITAS</a>
+                        </li>
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-controller="Home" asp-action="ListaContactanos">LISTA DE CONTACTANOS</a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Discapacitado"))
+                    {
+                        <li>
+                            <a class="navegacion2 nav-link scrollto" asp-area="" asp-controller="Cita" asp-action="Index">SOLICITAR CITA</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <ul class="navbar-nav float-end">
+                <li class="nav-item dropdown justify-content-start">
+                    <a class="navegacion2 nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="~/img/user.png" width="30" height="30"> @ViewBag.nombre
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Editar" asp-route-Id="@ViewBag.id"><i class="fa-solid fa-user-pen"></i> Editar Perfil</a></li>
+                        <li><a class="dropdown-item" asp-controller="Acceder" asp-action="CerrarSesion"><i class="fa-solid fa-right-from-bracket"></i> Salir</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div style="background: #E7E7E3">
+        <section id="hero" class="hero d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 offset-sm-3">
+                        <div class="text-center">
+                            <h2 id="tituloCita">SOLICITAR CITA</h2>
+                            <img src="~/img/cita.png" width="100" height="100" class="img-fluid">
+                        </div>
+                        <br />
+                        <form asp-controller="Cita" asp-action="SolicitarCita" method="post">
+                            <input asp-for="nombreDiscapacitado" value="@ViewBag.nombre2" hidden />
+                            <div class="mb-3">
+                                <h2 class="form-label">Nombre del Voluntario: @ViewBag.nombreVoluntario</h2>
+                                <input asp-for="nombreVoluntario" value="@ViewBag.nombreVoluntario" hidden />
+                                <span asp-validation-for="nombreVoluntario" class="text-danger"></span>
+                            </div>
+                            <br />
+                            <div class="mb-3">
+                                <label class="form-label">Lugar de Encuentro</label>
+                                <input type="text" asp-for="lugarEncuentro" class="form-control" placeholder="Ingrese el lugar de encuentro" id="lugarEncuentro" style="background: #E7E7E3" />
+                                <span asp-validation-for="lugarEncuentro" class="text-danger"></span>
+                            </div>
+                            @if (ViewBag.dia == "Lunes")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Dia de la cita de encuentro</label>
+                                    <select asp-for="dia" class="form-select" id="diaEncuentro" style="background: #E7E7E3">
+                                        <option value="03/07/2023">Lunes 03/07/2023</option>
+                                        <option value="10/07/2023">Lunes 10/07/2023</option>
+                                        <option value="17/07/2023">Lunes 17/07/2023</option>
+                                        <option value="24/07/2023">Lunes 24/07/2023</option>
+                                        <option value="31/07/2023">Lunes 31/07/2023</option>
+                                        <option value="07/08/2023">Lunes 07/08/2023</option>
+                                        <option value="14/08/2023">Lunes 14/08/2023</option>
+                                        <option value="21/08/2023">Lunes 21/08/2023</option>
+                                        <option value="28/08/2023">Lunes 28/08/2023</option>
+                                        <option value="04/09/2023">Lunes 04/09/2023</option>
+                                        <option value="11/09/2023">Lunes 11/09/2023</option>
+                                        <option value="18/09/2023">Lunes 18/09/2023</option>
+                                        <option value="25/09/2023">Lunes 25/09/2023</option>
+                                        <option value="02/10/2023">Lunes 02/10/2023</option>
+                                        <option value="09/10/2023">Lunes 09/10/2023</option>
+                                        <option value="16/10/2023">Lunes 16/10/2023</option>
+                                        <option value="23/10/2023">Lunes 23/10/2023</option>
+                                        <option value="30/10/2023">Lunes 30/10/2023</option>
+                                        <option value="06/11/2023">Lunes 06/11/2023</option>
+                                        <option value="13/11/2023">Lunes 13/11/2023</option>
+                                        <option value="20/11/2023">Lunes 20/11/2023</option>
+                                        <option value="27/11/2023">Lunes 27/11/2023</option>
+                                        <option value="04/12/2023">Lunes 04/12/2023</option>
+                                        <option value="11/12/2023">Lunes 11/12/2023</option>
+                                        <option value="18/12/2023">Lunes 18/12/2023</option>
+                                        <option value="25/12/2023">Lunes 25/12/2023</option>
+                                    </select>
+                                    <span asp-validation-for="dia" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (ViewBag.dia == "Martes")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Dia de la cita de encuentro</label>
+                                    <select asp-for="dia" class="form-select" id="diaEncuentro" style="background: #E7E7E3">
+                                        <option value="04/07/2023">Martes 04/07/2023</option>
+                                        <option value="11/07/2023">Martes 11/07/2023</option>
+                                        <option value="18/07/2023">Martes 18/07/2023</option>
+                                        <option value="25/07/2023">Martes 25/07/2023</option>
+                                        <option value="01/08/2023">Martes 01/08/2023</option>
+                                        <option value="08/08/2023">Martes 08/08/2023</option>
+                                        <option value="15/08/2023">Martes 15/08/2023</option>
+                                        <option value="22/08/2023">Martes 22/08/2023</option>
+                                        <option value="29/08/2023">Martes 29/08/2023</option>
+                                        <option value="05/09/2023">Martes 05/09/2023</option>
+                                        <option value="12/09/2023">Martes 12/09/2023</option>
+                                        <option value="19/09/2023">Martes 19/09/2023</option>
+                                        <option value="26/09/2023">Martes 26/09/2023</option>
+                                        <option value="03/10/2023">Martes 03/10/2023</option>
+                                        <option value="10/10/2023">Martes 10/10/2023</option>
+                                        <option value="17/10/2023">Martes 17/10/2023</option>
+                                        <option value="24/10/2023">Martes 24/10/2023</option>
+                                        <option value="31/10/2023">Martes 31/10/2023</option>
+                                        <option value="07/11/2023">Martes 07/11/2023</option>
+                                        <option value="14/11/2023">Martes 14/11/2023</option>
+                                        <option value="21/11/2023">Martes 21/11/2023</option>
+                                        <option value="28/11/2023">Martes 28/11/2023</option>
+                                        <option value="05/12/2023">Martes 05/12/2023</option>
+                                        <option value="12/12/2023">Martes 12/12/2023</option>
+                                        <option value="19/12/2023">Martes 19/12/2023</option>
+                                        <option value="26/12/2023">Martes 26/12/2023</option>
+                                    </select>
+                                    <span asp-validation-for="dia" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (ViewBag.dia == "Miercoles")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Dia de la cita de encuentro</label>
+                                    <select asp-for="dia" class="form-select" id="diaEncuentro" style="background: #E7E7E3">
+                                        <option value="05/07/2023">Miercoles 05/07/2023</option>
+                                        <option value="12/07/2023">Miercoles 12/07/2023</option>
+                                        <option value="19/07/2023">Miercoles 19/07/2023</option>
+                                        <option value="26/07/2023">Miercoles 26/07/2023</option>
+                                        <option value="02/08/2023">Miercoles 02/08/2023</option>
+                                        <option value="09/08/2023">Miercoles 09/08/2023</option>
+                                        <option value="16/08/2023">Miercoles 16/08/2023</option>
+                                        <option value="23/08/2023">Miercoles 23/08/2023</option>
+                                        <option value="30/08/2023">Miercoles 30/08/2023</option>
+                                        <option value="06/09/2023">Miercoles 06/09/2023</option>
+                                        <option value="13/09/2023">Miercoles 13/09/2023</option>
+                                        <option value="20/09/2023">Miercoles 20/09/2023</option>
+                                        <option value="27/09/2023">Miercoles 27/09/2023</option>
+                                        <option value="04/10/2023">Miercoles 04/10/2023</option>
+                                        <option value="11/10/2023">Miercoles 11/10/2023</option>
+                                        <option value="18/10/2023">Miercoles 18/10/2023</option>
+                                        <option value="25/10/2023">Miercoles 25/10/2023</option>
+                                        <option value="01/11/2023">Miercoles 01/11/2023</option>
+                                        <option value="08/11/2023">Miercoles 08/11/2023</option>
+                                        <option value="15/11/2023">Miercoles 15/11/2023</option>
+                                        <option value="22/11/2023">Miercoles 22/11/2023</option>
+                                        <option value="29/11/2023">Miercoles 29/11/2023</option>
+                                        <option value="06/12/2023">Miercoles 06/12/2023</option>
+                                        <option value="13/12/2023">Miercoles 13/12/2023</option>
+                                        <option value="20/12/2023">Miercoles 20/12/2023</option>
+                                        <option value="27/12/2023">Miercoles 27/12/2023</option>
+                                    </select>
+                                    <span asp-validation-for="dia" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (ViewBag.dia == "Jueves")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Dia de la cita de encuentro</label>
+                                    <select asp-for="dia" class="form-select" id="diaEncuentro" style="background: #E7E7E3">
+                                        <option value="06/07/2023">Jueves 06/07/2023</option>
+                                        <option value="13/07/2023">Jueves 13/07/2023</option>
+                                        <option value="20/07/2023">Jueves 20/07/2023</option>
+                                        <option value="27/07/2023">Jueves 27/07/2023</option>
+                                        <option value="03/08/2023">Jueves 03/08/2023</option>
+                                        <option value="10/08/2023">Jueves 10/08/2023</option>
+                                        <option value="17/08/2023">Jueves 17/08/2023</option>
+                                        <option value="24/08/2023">Jueves 24/08/2023</option>
+                                        <option value="31/08/2023">Jueves 31/08/2023</option>
+                                        <option value="07/09/2023">Jueves 07/09/2023</option>
+                                        <option value="14/09/2023">Jueves 14/09/2023</option>
+                                        <option value="21/09/2023">Jueves 21/09/2023</option>
+                                        <option value="28/09/2023">Jueves 28/09/2023</option>
+                                        <option value="05/10/2023">Jueves 05/10/2023</option>
+                                        <option value="12/10/2023">Jueves 12/10/2023</option>
+                                        <option value="19/10/2023">Jueves 19/10/2023</option>
+                                        <option value="26/10/2023">Jueves 26/10/2023</option>
+                                        <option value="02/11/2023">Jueves 02/11/2023</option>
+                                        <option value="09/11/2023">Jueves 09/11/2023</option>
+                                        <option value="16/11/2023">Jueves 16/11/2023</option>
+                                        <option value="23/11/2023">Jueves 23/11/2023</option>
+                                        <option value="30/11/2023">Jueves 30/11/2023</option>
+                                        <option value="07/12/2023">Jueves 07/12/2023</option>
+                                        <option value="14/12/2023">Jueves 14/12/2023</option>
+                                        <option value="21/12/2023">Jueves 21/12/2023</option>
+                                        <option value="28/12/2023">Jueves 28/12/2023</option>
+                                    </select>
+                                    <span asp-validation-for="dia" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (ViewBag.dia == "Viernes")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Dia de la cita de encuentro</label>
+                                    <select asp-for="dia" class="form-select" id="diaEncuentro" style="background: #E7E7E3">
+                                        <option value="07/07/2023">Viernes 07/07/2023</option>
+                                        <option value="14/07/2023">Viernes 14/07/2023</option>
+                                        <option value="21/07/2023">Viernes 21/07/2023</option>
+                                        <option value="28/07/2023">Viernes 28/07/2023</option>
+                                        <option value="04/08/2023">Viernes 04/08/2023</option>
+                                        <option value="11/08/2023">Viernes 11/08/2023</option>
+                                        <option value="18/08/2023">Viernes 18/08/2023</option>
+                                        <option value="25/08/2023">Viernes 25/08/2023</option>
+                                        <option value="01/09/2023">Viernes 01/09/2023</option>
+                                        <option value="08/09/2023">Viernes 08/09/2023</option>
+                                        <option value="15/09/2023">Viernes 15/09/2023</option>
+                                        <option value="22/09/2023">Viernes 22/09/2023</option>
+                                        <option value="29/09/2023">Viernes 29/09/2023</option>
+                                        <option value="06/10/2023">Viernes 06/10/2023</option>
+                                        <option value="13/10/2023">Viernes 13/10/2023</option>
+                                        <option value="20/10/2023">Viernes 20/10/2023</option>
+                                        <option value="27/10/2023">Viernes 27/10/2023</option>
+                                        <option value="03/11/2023">Viernes 03/11/2023</option>
+                                        <option value="10/11/2023">Viernes 10/11/2023</option>
+                                        <option value="17/11/2023">Viernes 17/11/2023</option>
+                                        <option value="24/11/2023">Viernes 24/11/2023</option>
+                                        <option value="01/12/2023">Viernes 01/12/2023</option>
+                                        <option value="08/12/2023">Viernes 08/12/2023</option>
+                                        <option value="15/12/2023">Viernes 15/12/2023</option>
+                                        <option value="22/12/2023">Viernes 22/12/2023</option>
+                                        <option value="29/12/2023">Viernes 29/12/2023</option>
+                                    </select>
+                                    <span asp-validation-for="dia" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (ViewBag.dia == "Sabado")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Dia de la cita de encuentro</label>
+                                    <select asp-for="dia" class="form-select" id="diaEncuentro" style="background: #E7E7E3">
+                                        <option value="08/07/2023">Sabado 08/07/2023</option>
+                                        <option value="15/07/2023">Sabado 15/07/2023</option>
+                                        <option value="22/07/2023">Sabado 22/07/2023</option>
+                                        <option value="29/07/2023">Sabado 29/07/2023</option>
+                                        <option value="05/08/2023">Sabado 05/08/2023</option>
+                                        <option value="12/08/2023">Sabado 12/08/2023</option>
+                                        <option value="19/08/2023">Sabado 19/08/2023</option>
+                                        <option value="26/08/2023">Sabado 26/08/2023</option>
+                                        <option value="02/09/2023">Sabado 02/09/2023</option>
+                                        <option value="09/09/2023">Sabado 09/09/2023</option>
+                                        <option value="16/09/2023">Sabado 16/09/2023</option>
+                                        <option value="23/09/2023">Sabado 23/09/2023</option>
+                                        <option value="30/09/2023">Sabado 30/09/2023</option>
+                                        <option value="07/10/2023">Sabado 07/10/2023</option>
+                                        <option value="14/10/2023">Sabado 14/10/2023</option>
+                                        <option value="21/10/2023">Sabado 21/10/2023</option>
+                                        <option value="28/10/2023">Sabado 28/10/2023</option>
+                                        <option value="04/11/2023">Sabado 04/11/2023</option>
+                                        <option value="11/11/2023">Sabado 11/11/2023</option>
+                                        <option value="18/11/2023">Sabado 18/11/2023</option>
+                                        <option value="25/11/2023">Sabado 25/11/2023</option>
+                                        <option value="02/12/2023">Sabado 02/12/2023</option>
+                                        <option value="09/12/2023">Sabado 09/12/2023</option>
+                                        <option value="16/12/2023">Sabado 16/12/2023</option>
+                                        <option value="23/12/2023">Sabado 23/12/2023</option>
+                                        <option value="30/12/2023">Sabado 30/12/2023</option>
+                                    </select>
+                                    <span asp-validation-for="dia" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (ViewBag.dia == "Domingo")
+                            {
+                                <div class="mb-3">
+                                    <label class="form-label">Dia de la cita de encuentro</label>
+                                    <select asp-for="dia" class="form-select" id="diaEncuentro" style="background: #E7E7E3">
+                                        <option value="09/07/2023">Domingo 09/07/2023</option>
+                                        <option value="16/07/2023">Domingo 16/07/2023</option>
+                                        <option value="23/07/2023">Domingo 23/07/2023</option>
+                                        <option value="30/07/2023">Domingo 30/07/2023</option>
+                                        <option value="06/08/2023">Domingo 06/08/2023</option>
+                                        <option value="13/08/2023">Domingo 13/08/2023</option>
+                                        <option value="20/08/2023">Domingo 20/08/2023</option>
+                                        <option value="27/08/2023">Domingo 27/08/2023</option>
+                                        <option value="03/09/2023">Domingo 03/09/2023</option>
+                                        <option value="10/09/2023">Domingo 10/09/2023</option>
+                                        <option value="17/09/2023">Domingo 17/09/2023</option>
+                                        <option value="24/09/2023">Domingo 24/09/2023</option>
+                                        <option value="01/10/2023">Domingo 01/10/2023</option>
+                                        <option value="08/10/2023">Domingo 08/10/2023</option>
+                                        <option value="15/10/2023">Domingo 15/10/2023</option>
+                                        <option value="22/10/2023">Domingo 22/10/2023</option>
+                                        <option value="29/10/2023">Domingo 29/10/2023</option>
+                                        <option value="05/11/2023">Domingo 05/11/2023</option>
+                                        <option value="12/11/2023">Domingo 12/11/2023</option>
+                                        <option value="19/11/2023">Domingo 19/11/2023</option>
+                                        <option value="26/11/2023">Domingo 26/11/2023</option>
+                                        <option value="03/12/2023">Domingo 03/12/2023</option>
+                                        <option value="10/12/2023">Domingo 10/12/2023</option>
+                                        <option value="17/12/2023">Domingo 17/12/2023</option>
+                                        <option value="24/12/2023">Domingo 24/12/2023</option>
+                                        <option value="31/12/2023">Domingo 31/12/2023</option>
+                                    </select>
+                                    <span asp-validation-for="dia" class="text-danger"></span>
+                                </div>
+                            }
+                            @if (ViewBag.errorHorario != null)
+                            {
+                                <div class="alert alert-danger" role="alert" id="alertaHorarioCita">Porfavor ingrese nuevamente el horario de la cita</div>
+                            }
+                            <div class="mb-3">
+                                <label class="form-label">Hora de Encuentro: (La hora debe estar en el rango de @ViewBag.horaInicio - @ViewBag.horaFin)</label>
+                                <input type="text" asp-for="horario" class="form-control" placeholder="00:00" id="hora" style="background: #E7E7E3" />
+                                <span asp-validation-for="horario" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Tiempo de duración aproximado de la cita</label>
+                                <select asp-for="tiempoCita" class="form-select" id="tiempo" style="background: #E7E7E3">
+                                    <option value="0.30 minutos">30 minutos</option>
+                                    <option value="0.40 minutos">40 minutos</option>
+                                    <option value="0.50 minutos">50 minutos</option>
+                                    <option value="1 hora">60 minutos</option>
+                                    <option value="1.10 hora">1 hora - 10 minutos</option>
+                                    <option value="1.20 hora">1 hora - 20 minutos</option>
+                                    <option value="1.30 hora">1 hora - 30 minutos</option>
+                                    <option value="1.40 hora">1 hora - 40 minutos</option>
+                                    <option value="1.50 hora">1 hora - 50 minutos</option>
+                                    <option value="2 horas">2 horas</option>
+                                </select>
+                                <span asp-validation-for="tiempoCita" class="text-danger"></span>
+                            </div>
+                            @if (ViewBag.errorModelo != null)
+                            {
+                                <div class="alert alert-danger" role="alert" id="alertaModeloIncompleto">Error! Porfavor completar todos los campos.</div>
+                            }
+                            <div class="text-center">
+                                <button name="solicitarCita" type="submit" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Solicitar</span>
+                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                </button>
+                                <a asp-controller="Cita" asp-action="index" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Regresar</span>
+                                    <i class="fa-solid fa-left-long"></i>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- Footer -->
+    <footer class="border-top footer text-muted">
+        <!-- Section: Social media -->
+        <section class="d-flex justify-content-center justify-content-lg-between p-2 border-bottom">
+            <!-- Left -->
+            <div class="me-5 d-none d-lg-block">
+                <span>SÍGUENOS:</span>
+            </div>
+            <!-- Left -->
+            <!-- Right -->
+            <div>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="" class="me-4 text-reset btn btn-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+            <!-- Right -->
+        </section>
+        <!-- Section: Social media -->
+        <!-- Section: Links  -->
+        <div class="container text-center text-md-start mt-5">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-2">
+                    <!-- Content -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        <i class="fas fa-gem me-3"></i>MOBIEASE
+                    </h6>
+                    <p>
+                        Telefono: 922513085
+                    </p>
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">
+                        NOSOTROS
+                    </h6>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Quiénes Somos</a>
+                    <a asp-controller="Home" asp-action="QuienesSomos" class="nav-link text-reset">Que Hacemos</a>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-2">
+                    <!-- Links -->
+                    <h6 class="text-uppercase fw-bold mb-2">Contacto</h6>
+                    <p><a asp-controller="Home" asp-action="Contactanos" class="nav-link text-reset">Contactanos</a></p>
+                </div>
+                <!-- Grid column -->
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Section: Links  -->
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2023 Copyright:
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <script src="lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/site.js" asp-append-version="true"></script>
+</body>
+</html>
